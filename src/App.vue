@@ -6,7 +6,15 @@
       <a v-for="(menu, i) in menus" :key="i">{{ menu }}</a>
     </div>
     <DiscountBanner />
-    <CardView :room="roomData[i]" v-for="(room, i) in roomData" :key="i" />
+    <CardView
+      @openModal="
+        isModal = true;
+        clickedId = $event;
+      "
+      :roomData="roomData[i]"
+      v-for="(room, i) in roomData"
+      :key="i"
+    />
   </div>
 </template>
 
