@@ -1,11 +1,13 @@
 <template>
-  <DetailModal :isModal="isModal" :roomData="roomData" :clickedId="clickedId" />
+  <DetailModal @closeModal="isModal = false" :isModal="isModal" :roomData="roomData" :clickedId="clickedId" />
 
   <div class="centerStyle">
     <div class="menu">
       <a v-for="(menu, i) in menus" :key="i">{{ menu }}</a>
     </div>
-    <DiscountBanner />
+    <DiscountBanner :discountRate="discountRate" />
+    <button @click="priceSort()">가격순 정렬</button>
+    <button @click="sortBack()">정렬 원상복귀</button>
     <CardView
       @openModal="
         isModal = true;
@@ -19,26 +21,42 @@
 </template>
 
 <script>
-import oneRoom from "./assets/oneroom.js";
-import DiscountBanner from "./components/DiscountBanner.vue";
-import DetailModal from "./components/DetailModal.vue";
-import CardView from "./components/CardView.vue";
+import oneRoom from "@/assets/oneroom.js";
+import CardView from "@/components/CardView.vue";
+import DetailModal from "@/components/DetailModal.vue";
+import DiscountBanner from "@/components/DiscountBanner.vue";
 
 export default {
   name: "App",
   data() {
     return {
       menus: ["Home", "Shop", "About"],
-      roomData: oneRoom,
+      roomDataOriginal: [...oneRoom],
+      roomData: [...oneRoom],
       clickedId: 0,
       isModal: false,
+      discountRate: 20,
     };
   },
 
   methods: {
-    increase() {
-      this.신고수 += 1;
+    priceSort() {
+      this.roomData.sort(function (a, b) {
+        return a.price - b.price;
+      });
     },
+    sortBack() {
+      this.roomData = [...this.roomDataOriginal];
+    },
+  },
+
+  mounted() {
+    setInterval(() => {
+      this.discountRate--;
+      if (this.discountRate < 0) {
+        this.discountRate = 20;
+      }
+    }, 1000);
   },
 
   components: {
@@ -79,19 +97,6 @@ body {
 }
 div {
   box-sizing: border-box;
-}
-.black-bg {
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  padding: 20px;
-}
-.white-bg {
-  width: 100%;
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
 }
 
 @media (min-width: 1024px) {
