@@ -1,47 +1,22 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <h1>메인 페이지</h1>
+  <router-link to="/list">이동하기</router-link>
+  <router-view :blogContent="blogContent" class="mt-5"></router-view>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<script>
+import List from "@/components/List.vue";
+import Blog from "@/assets/blog.js";
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+export default {
+  name: "App",
+  data() {
+    return {
+      blogContent: Blog,
+    };
+  },
+  components: { List },
+};
+</script>
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
+<style></style>
