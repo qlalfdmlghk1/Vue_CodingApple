@@ -9,7 +9,8 @@
     <img src="./assets/logo.png" class="logo" />
   </div>
 
-  <Container />
+  <Container :posts="posts" />
+  <button @click="more">더보기</button>
 
   <div class="footer">
     <ul class="footer-button-plus">
@@ -21,19 +22,27 @@
 
 <script>
 import posts from "@/assets/post.js";
-import Post from "@/components/Post.vue";
 import Container from "@/components/Container.vue";
+import axios from "axios";
 
 export default {
   name: "App",
   data() {
     return {
-      posts,
+      posts: posts,
+      moreCnt: 0,
     };
   },
   components: {
     Container,
-    Post,
+  },
+  methods: {
+    more() {
+      axios.get(`https://codingapple1.github.io/vue/more${this.moreCnt}.json`).then((res) => {
+        this.posts.push(res.data);
+        this.moreCnt++;
+      });
+    },
   },
 };
 </script>

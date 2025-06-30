@@ -1,10 +1,10 @@
 <template>
   <div class="post">
     <div class="post-header">
-      <div class="profile"></div>
+      <div class="profile" :style="{ backgroundImage: `url(${post.userImage})` }"></div>
       <span class="profile-name">ChanKim</span>
     </div>
-    <div class="post-body"></div>
+    <div class="post-body" :style="{ backgroundImage: `url(${post.postImage})` }"></div>
     <div class="post-content">
       <p>43 Likes</p>
       <p><strong>글쓴이아이디</strong> 임시내용</p>
@@ -13,7 +13,17 @@
   </div>
 </template>
 
-<script></script>
+<script>
+export default {
+  name: "Post",
+  data() {
+    return {};
+  },
+  props: {
+    post: Object,
+  },
+};
+</script>
 
 <style>
 .post {
