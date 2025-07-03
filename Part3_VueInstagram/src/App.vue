@@ -4,17 +4,18 @@
       <li>Cancel</li>
     </ul>
     <ul class="header-button-right">
-      <li>Next</li>
+      <li v-if="step == 1" @click="step++">Next</li>
+      <li v-if="step == 2" @click="publish()">발행</li>
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
 
-  <Container :posts="posts" />
+  <Container :posts="posts" :step="step" />
   <button @click="more">더보기</button>
 
   <div class="footer">
     <ul class="footer-button-plus">
-      <input type="file" id="file" class="inputfile" />
+      <input @change="upload" type="file" id="file" class="inputfile" />
       <label for="file" class="input-plus">+</label>
     </ul>
   </div>
@@ -31,6 +32,7 @@ export default {
     return {
       posts: posts,
       moreCnt: 0,
+      step: 0, // 업로드 단계
     };
   },
   components: {
@@ -42,6 +44,26 @@ export default {
         this.posts.push(res.data);
         this.moreCnt++;
       });
+    },
+    upload(e) {
+      let file = e.target.files;
+      let url = URL.createObjectURL(file[0]);
+      console.log(url);
+      this.step++;
+    },
+    publish() {
+      var 내게시물 = {
+        name: "Kim Hyun",
+        userImage: "https://picsum.photos/100?random=1",
+        postImage: "https://picsum.photos/600?random=1",
+        likes: 36,
+        date: "May 15",
+        liked: false,
+        content: "내가입력한글",
+        filter: "perpetua",
+      };
+      this.게시물.unshift(내게시물);
+      this.step = 0;
     },
   },
 };
